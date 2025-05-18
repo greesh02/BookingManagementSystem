@@ -1,0 +1,45 @@
+package com.greeshwar.BookingManagementSystem.Controllers;
+
+import com.greeshwar.BookingManagementSystem.Dtos.BookingMovieRequestDto;
+import com.greeshwar.BookingManagementSystem.Dtos.BookingMovieResponseDto;
+import com.greeshwar.BookingManagementSystem.Dtos.ResponseInfo;
+import com.greeshwar.BookingManagementSystem.Enums.ResponseStatus;
+import com.greeshwar.BookingManagementSystem.Models.Ticket;
+import com.greeshwar.BookingManagementSystem.Models.User;
+import com.greeshwar.BookingManagementSystem.Services.BookingService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BookingController {
+
+    private BookingService bs;
+
+    public BookingController(BookingService bs){
+        this.bs = bs;
+    }
+
+    @PostMapping("/book")
+    public BookingMovieResponseDto bookMovie( @RequestBody BookingMovieRequestDto req){
+        BookingMovieResponseDto res = new BookingMovieResponseDto();
+
+        try{
+            Ticket t = this.bs.bookTicket(req.getUserId(),req.getShowSeatIds(),req.getShowId());
+            res.setTicket(t);
+            ResponseInfo responseInfo = new ResponseInfo();
+            responseInfo.setResponseMessage("success");
+            responseInfo.setResponseStatus(ResponseStatus.SUCCESS);
+            res.setResponseInfo(responseInfo);
+
+        }
+        catch (Exception e){
+            ResponseInfo responseInfo = new ResponseInfo();
+            responseInfo.setResponseMessage(e.getMessage());
+            responseInfo.setResponseStatus(ResponseStatus.FAILURE);
+            res.setResponseInfo(responseInfo);
+        }
+        return res;
+    }
+}
