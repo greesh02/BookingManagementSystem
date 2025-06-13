@@ -32,6 +32,16 @@ public class Show extends BaseModel{
     @Enumerated(EnumType.STRING)
     private Language language;
 
+    private String createdBy;
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public City getCity() {
         return city;
     }

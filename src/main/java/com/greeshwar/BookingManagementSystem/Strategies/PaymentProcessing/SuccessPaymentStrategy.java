@@ -35,7 +35,7 @@ public class SuccessPaymentStrategy extends PaymentProcessingStrategy{
     }
 
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     private List<ShowSeat> updateShowSeatStatus(List<ShowSeat> showSeats){
         for(ShowSeat showSeat:showSeats){
             showSeat.setShowSeatStatus(ShowSeatStatus.BOOKED);
@@ -43,7 +43,7 @@ public class SuccessPaymentStrategy extends PaymentProcessingStrategy{
         }
         return this.showSeatRepository.saveAll(showSeats);
     }
-
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Ticket processPayment(PaymentMode paymentMode, Ticket ticket){
 
         List<ShowSeat> showSeats = ticket.getShowSeats();

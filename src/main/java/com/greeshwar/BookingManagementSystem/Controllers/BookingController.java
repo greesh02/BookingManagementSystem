@@ -23,6 +23,7 @@ public class BookingController {
 
     @PostMapping("/book")
     public BookingMovieResponseDto bookMovie( @RequestBody BookingMovieRequestDto req){
+        System.out.println("in");
         BookingMovieResponseDto res = new BookingMovieResponseDto();
 
         try{

@@ -19,7 +19,7 @@ public class ShowController {
         this.showService = showService;
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     Show createShow(@RequestBody CreateShowRequestDto req){
         System.out.println("in");
         try{

@@ -9,6 +9,9 @@ import com.greeshwar.BookingManagementSystem.Enums.ResponseStatus;
 import com.greeshwar.BookingManagementSystem.Models.Ticket;
 import com.greeshwar.BookingManagementSystem.Models.User;
 import com.greeshwar.BookingManagementSystem.Services.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +69,20 @@ public class UserController {
         }
 
         return res;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> authenticatedUser() {
+        // current user info
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(currentUser);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<User>> allUsers() {
+        List <User> users = us.allUsers();
+        return ResponseEntity.ok(users);
     }
 
 

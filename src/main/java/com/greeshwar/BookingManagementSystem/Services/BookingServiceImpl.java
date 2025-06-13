@@ -56,10 +56,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     // obtains lock for thewhole operation
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.SERIALIZABLE) // whole operation is serializable
     private List<ShowSeat> reserveSeats(Show show,List<Long> showSeatsIds){
         // 3) fetch all show-seat matching pairs
-        List<ShowSeat> showSeats = this.showSeatRepository.findAllById(showSeatsIds);
+        List<ShowSeat> showSeats = this.showSeatRepository.findAllByIdIn(showSeatsIds);
 
         //4) check if all seats present
         if(showSeats.size() != showSeatsIds.size()){

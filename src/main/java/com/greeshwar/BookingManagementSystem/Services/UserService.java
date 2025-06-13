@@ -12,4 +12,5 @@ public interface UserService {
 
     User signup(String name,String email,String password);
     List<Ticket> getAllTickets(Long userId);
+    List<User> allUsers();
 }

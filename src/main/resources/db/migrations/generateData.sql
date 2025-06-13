@@ -1,4 +1,4 @@
-use bms;
+use bms2;
 -- create cities
 INSERT INTO city (id, name, created_at, last_modified_at) VALUES
 (1, 'Mumbai', CURDATE(), CURDATE()),
@@ -304,8 +304,7 @@ INSERT INTO movie_features (movie_id, features) VALUES
 (7, 'DOLBY_ATMOS'),
 (8, 'THREE_D'),
 (9, 'TWO_D'),
-(10, 'DOLBY_ATMOS'),
-(10, 'TWO_Dscreen');
+(10, 'DOLBY_ATMOS');
 
 -- movie languages
 
