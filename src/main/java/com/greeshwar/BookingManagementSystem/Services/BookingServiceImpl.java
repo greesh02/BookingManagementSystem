@@ -81,13 +81,13 @@ public class BookingServiceImpl implements BookingService {
         return this.showSeatRepository.saveAll(showSeats);
     }
 
-    public Ticket bookTicket(Long userId, List<Long> showSeatsIds, Long showId){
+    public Ticket bookTicket(String email, List<Long> showSeatsIds, Long showId){
 
         if(showSeatsIds.size() == 0){
             throw new RuntimeException("please select some seats");
         }
         // 1) check if user present
-        Optional<User> ou = this.userRepository.findById(userId);
+        Optional<User> ou = this.userRepository.findByEmail(email);
         if(ou.isEmpty()){
             throw new UserNotFoundException("user not found");
         }

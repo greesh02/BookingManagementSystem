@@ -27,33 +27,15 @@ public class UserController {
         this.us = us;
     }
 
-    @PostMapping("/signUp")
-    public SignUpResponseDto signup(@RequestBody SignUpRequestDto req){
-        SignUpResponseDto res = new SignUpResponseDto();
-        try{
-            User u = this.us.signup(req.getName(),req.getEmail(),req.getPassword());
-            res.setUser(u);
-            ResponseInfo responseInfo = new ResponseInfo();
-            responseInfo.setResponseMessage("success");
-            responseInfo.setResponseStatus(ResponseStatus.SUCCESS);
-            res.setResponseInfo(responseInfo);
 
-        }
-        catch (Exception e){
-            ResponseInfo responseInfo = new ResponseInfo();
-            responseInfo.setResponseMessage(e.getMessage());
-            responseInfo.setResponseStatus(ResponseStatus.FAILURE);
-            res.setResponseInfo(responseInfo);
-        }
 
-        return res;
-    }
-
-    @GetMapping("/{id}/tickets")
-    GetUserTicketsResponseDto getTickets(@PathVariable("id") Long userId){
+    @GetMapping("/tickets")
+    GetUserTicketsResponseDto getTickets(){
         GetUserTicketsResponseDto res = new GetUserTicketsResponseDto();
         try{
-            List<Ticket> tickets = this.us.getAllTickets(userId);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User currentUser = (User) authentication.getPrincipal();
+            List<Ticket> tickets = this.us.getAllTickets(currentUser.getEmail());
             res.setTickets(tickets);
             ResponseInfo responseInfo = new ResponseInfo();
             responseInfo.setResponseMessage("success");

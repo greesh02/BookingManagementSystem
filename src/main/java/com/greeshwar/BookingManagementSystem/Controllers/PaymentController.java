@@ -8,8 +8,11 @@ import com.greeshwar.BookingManagementSystem.Dtos.ResponseInfo;
 import com.greeshwar.BookingManagementSystem.Enums.ResponseStatus;
 import com.greeshwar.BookingManagementSystem.Models.City;
 import com.greeshwar.BookingManagementSystem.Models.Ticket;
+import com.greeshwar.BookingManagementSystem.Models.User;
 import com.greeshwar.BookingManagementSystem.Services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,7 +50,9 @@ public class PaymentController {
     public PaymentResponseDto generatePayment(@RequestBody PaymentRequestDto req){
         PaymentResponseDto res = new PaymentResponseDto();
         try{
-            Ticket ticket = this.paymentService.proceedPayment( req.getUser_id(), req.getTicket_id(),req.getPayment_mode(), req.getPayment_status());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User currentUser = (User) authentication.getPrincipal();
+            Ticket ticket = this.paymentService.proceedPayment(currentUser.getEmail(), req.getTicket_id(),req.getPayment_mode(), req.getPayment_status());
             res.setTicket(ticket);
             ResponseInfo responseInfo = new ResponseInfo();
             responseInfo.setResponseMessage("success");

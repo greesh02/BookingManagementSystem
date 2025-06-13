@@ -1,18 +1,12 @@
 package com.greeshwar.BookingManagementSystem.Dtos.Payment;
 
 public class PaymentRequestDto {
-    private Long user_id;
+
     private Long ticket_id;
     private String payment_status;
     private String payment_mode;
 
-    public Long getUser_id() {
-        return user_id;
-    }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
-    }
 
     public Long getTicket_id() {
         return ticket_id;

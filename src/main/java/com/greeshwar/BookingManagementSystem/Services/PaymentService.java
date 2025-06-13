@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PaymentService {
     List<String> getAllPaymentModes();
-    Ticket proceedPayment(Long userId,Long ticketId,String paymentMode,String paymentStatus);
+    Ticket proceedPayment(String email,Long ticketId,String paymentMode,String paymentStatus);
 }

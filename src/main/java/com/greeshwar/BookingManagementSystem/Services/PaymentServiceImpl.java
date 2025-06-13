@@ -37,13 +37,14 @@ public class PaymentServiceImpl implements PaymentService{
         }
         return ret;
     }
-    public Ticket proceedPayment(Long userId, Long ticketId, String paymentMode, String paymentStatus){
-        Optional< User> optionalUser = this.userRepository.findById(userId);
+    public Ticket proceedPayment(String email, Long ticketId, String paymentMode, String paymentStatus){
+        Optional< User> optionalUser = this.userRepository.findByEmail(email);
         if(optionalUser.isEmpty()){
             throw new UserNotFoundException("user not found");
         }
+        User user = optionalUser.get();
         Optional<Ticket> optionalTicket = this.ticketRepository.findById(ticketId);
-        if(optionalTicket.isEmpty() || !optionalTicket.get().getUser().getId().equals(userId)){
+        if(optionalTicket.isEmpty() || !optionalTicket.get().getUser().getId().equals(user.getId())){
             throw new InvalidTicketException("invalid ticket or ticket doesnt match user");
         }
         Ticket ticket = optionalTicket.get();

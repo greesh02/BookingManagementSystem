@@ -1,11 +1,16 @@
 package com.greeshwar.BookingManagementSystem.Controllers;
 
 import com.greeshwar.BookingManagementSystem.Dtos.CreateShow.CreateShowRequestDto;
+import com.greeshwar.BookingManagementSystem.Dtos.CreateShow.CreateShowResponseDto;
 import com.greeshwar.BookingManagementSystem.Dtos.GetAllShows.GetAllShowsResponseDto;
 import com.greeshwar.BookingManagementSystem.Dtos.ResponseInfo;
 import com.greeshwar.BookingManagementSystem.Enums.ResponseStatus;
 import com.greeshwar.BookingManagementSystem.Models.Show;
+import com.greeshwar.BookingManagementSystem.Models.Ticket;
+import com.greeshwar.BookingManagementSystem.Models.User;
 import com.greeshwar.BookingManagementSystem.Services.ShowService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,15 +25,28 @@ public class ShowController {
     }
 
     @PostMapping("/create")
-    Show createShow(@RequestBody CreateShowRequestDto req){
+    CreateShowResponseDto createShow(@RequestBody CreateShowRequestDto req){
         System.out.println("in");
+        CreateShowResponseDto res = new CreateShowResponseDto();
+
         try{
-            return this.showService.createShow(req.getMovie_id(),req.getScreen_id(),req.getCity_id(),req.getLanguage(),req.getFeatures(),req.getStart_time());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User currentUser = (User) authentication.getPrincipal();
+            Show show = this.showService.createShow(currentUser.getEmail(),req.getMovie_id(),req.getScreen_id(),req.getCity_id(),req.getLanguage(),req.getFeatures(),req.getStart_time());
+            res.setShow(show);
+            ResponseInfo responseInfo = new ResponseInfo();
+            responseInfo.setResponseMessage("success");
+            responseInfo.setResponseStatus(ResponseStatus.SUCCESS);
+            res.setResponseInfo(responseInfo);
+
         }
         catch (Exception e){
-            System.out.println(e);
-            return null;
+            ResponseInfo responseInfo = new ResponseInfo();
+            responseInfo.setResponseMessage(e.getMessage());
+            responseInfo.setResponseStatus(ResponseStatus.FAILURE);
+            res.setResponseInfo(responseInfo);
         }
+        return res;
 
     }
 

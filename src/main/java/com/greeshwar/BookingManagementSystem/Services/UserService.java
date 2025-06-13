@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    User signup(String name,String email,String password);
-    List<Ticket> getAllTickets(Long userId);
+
+    List<Ticket> getAllTickets(String email);
     List<User> allUsers();
 }

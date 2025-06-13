@@ -39,10 +39,11 @@ public class ShowServiceImpl implements  ShowService{
 
     }
 
-   public Show createShow(Long movie_id, Long screen_id, Long city_id, String language, List<String> features,Long startTime){
+   public Show createShow(String userEmail,Long movie_id, Long screen_id, Long city_id, String language, List<String> features,Long startTime){
        Show show = new Show();
        Movie movie = this.movieRepository.findById(movie_id).get();
        show.setMovie(movie);
+       show.setCreatedBy(userEmail);
 
        List<Feature> fs = new ArrayList<>();
        for(String f:features){
