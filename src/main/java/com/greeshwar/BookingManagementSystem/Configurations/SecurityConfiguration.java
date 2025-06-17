@@ -16,7 +16,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //tells spring going to edit spring security here
 public class SecurityConfiguration {
 
     private final AuthenticationProvider authenticationProvider;

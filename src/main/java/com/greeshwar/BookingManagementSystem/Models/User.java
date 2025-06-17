@@ -92,7 +92,7 @@ public class User extends BaseModel implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    @Override
     public String getPassword() {
         return password;
     }
