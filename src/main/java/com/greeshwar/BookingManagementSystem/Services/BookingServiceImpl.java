@@ -55,8 +55,6 @@ public class BookingServiceImpl implements BookingService {
         return false;
     }
 
-    // obtains lock for thewhole operation
-    @Transactional(isolation = Isolation.SERIALIZABLE) // whole operation is serializable
     private List<ShowSeat> reserveSeats(Show show,List<Long> showSeatsIds){
         // 3) fetch all show-seat matching pairs
         List<ShowSeat> showSeats = this.showSeatRepository.findAllByIdIn(showSeatsIds);
@@ -80,7 +78,8 @@ public class BookingServiceImpl implements BookingService {
         // 6) mark seats as blocked and proceed with payment
         return this.showSeatRepository.saveAll(showSeats);
     }
-
+    // obtains lock for thewhole operation
+    @Transactional(isolation = Isolation.SERIALIZABLE) // whole operation is serializable
     public Ticket bookTicket(String email, List<Long> showSeatsIds, Long showId){
 
         if(showSeatsIds.size() == 0){
