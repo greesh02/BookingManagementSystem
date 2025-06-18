@@ -70,12 +70,17 @@ public class BookingServiceImpl implements BookingService {
             if(!(ss.getShow().getId().equals(show.getId()) && this.checkShowSeatAvailability(ss))){
                 throw new SeatNoLongerAvailableException("seat no longer available");
             }
+
+        }
+        // 6) mark seats as blocked and proceed with payment
+        for(ShowSeat ss:showSeats){
+
             ss.setShowSeatStatus(ShowSeatStatus.BLOCKED);
             // store the time at which it is blocked
             ss.setBlockedAt(new Date());
         }
 
-        // 6) mark seats as blocked and proceed with payment
+
         return this.showSeatRepository.saveAll(showSeats);
     }
     // obtains lock for thewhole operation
